@@ -1,0 +1,28 @@
+{
+  "name": "login-api",
+  "version": "1.0.0",
+  "description": "Back-end da aplicação de login",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec src/app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "challenge",
+    "authentication"
+  ],
+  "author": "Ramon Oliveira",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "sequelize": "^6.5.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.8",
+    "@babel/node": "^7.13.0",
+    "@babel/preset-env": "^7.13.9",
+    "nodemon": "^2.0.7"
+  }
+}
