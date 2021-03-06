@@ -1,12 +1,20 @@
 import express from 'express';
 import cors from 'cors'
+import SequelizeDB from './lib/SequelizeDB'
 
 const app = express();
 
 app.use(cors());
 
-require('dotenv').config();
+app.use(express.urlencoded({
+    extended: false
+}));
+app.use(express.json());
 
+require('dotenv/config')
+
+const database = new SequelizeDB();
+database.connect();
 
 import indexRoute from "./routes/index"
 
