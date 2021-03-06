@@ -60,6 +60,13 @@ class UserController {
             res.status(500).send({ message: "Ocorreu um erro ao deletar o registro", err: err, request: req.body});
         })    
     }
+
+    async login(req, res) {
+
+    }
+    async reset_password(req, res) {
+
+    }
 }
 
 export default UserController

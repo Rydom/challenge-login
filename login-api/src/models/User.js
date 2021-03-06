@@ -1,7 +1,7 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize, DataTypes } from 'sequelize';
 
 class User extends Sequelize.Model {
-    static init(sequelize, DataTypes) {
+    static init(sequelize) {
         return super.init(
             {
                 fullname: {

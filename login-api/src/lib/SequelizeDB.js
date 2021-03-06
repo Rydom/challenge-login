@@ -31,7 +31,7 @@ class SequelizeDB {
         })
 
         // Inicializando Models
-        User.init(sequelize, Sequelize)
+        User.init(sequelize)
 
     }
 }
