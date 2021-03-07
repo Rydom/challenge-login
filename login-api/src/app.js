@@ -16,9 +16,11 @@ require('dotenv/config')
 const database = new SequelizeDB();
 database.connect();
 
-import indexRoute from "./routes/index"
+import indexRoute from "./routes"
+import userRoute from "./routes/UserRoute"
 
 app.use("/", indexRoute);
+app.use("/users", userRoute);
 
 app.listen(process.env.PORT, (err) => {
     if(!err) {

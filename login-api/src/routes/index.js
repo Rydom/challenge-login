@@ -1,17 +1,17 @@
 import { Router } from 'express'
 
+import AuthController from '../controllers/AuthController'
 import UserController from '../controllers/UserController'
 
-const controller = new UserController();
+const authController = new AuthController();
+const userController = new UserController();
 
 const routes = Router();
 
-routes.get('/:id?', controller.list)
+routes.post('/login', authController.login)
 
-routes.post('/', controller.create)
+routes.put('/reset_password', authController.reset_password)
 
-routes.put('/:id', controller.update)
-
-routes.delete('/:id', controller.delete)
+routes.post('/sign_up', userController.create)
 
 export default routes;

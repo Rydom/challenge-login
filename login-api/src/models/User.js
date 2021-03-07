@@ -4,7 +4,7 @@ class User extends Sequelize.Model {
     static init(sequelize) {
         return super.init(
             {
-                fullname: {
+                username: {
                     type: DataTypes.STRING(255),
                     allowNull: true
                 },

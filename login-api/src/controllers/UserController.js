@@ -1,5 +1,4 @@
-import User from '../models/User'
-
+import User from '../models/User';
 class UserController {
 
     async list(req, res) {
@@ -23,15 +22,17 @@ class UserController {
     }
 
     async create(req, res) {
+        // Cadastra um novo
         await User.create(req.body)
         .then(async data => {
             res.status(201).send({ message: "Usuário cadastrado!", user: await data.get()});
         }).catch(err => {
-            res.status(500).send({ message: "Ocorreu um erro ao criar o registro", err: err, request: req.body});
+            console.error(`Error Create: ${err.message}`)
+            res.status(500).send({ message: "Ocorreu um erro ao tentar cadastrar usuário."});
         })
     }
-
-   async update(req, res) {
+    
+    async update(req, res) {
         const { id } = req.params;
         const data = req.body;
         
@@ -59,13 +60,6 @@ class UserController {
         }).catch(err => {
             res.status(500).send({ message: "Ocorreu um erro ao deletar o registro", err: err, request: req.body});
         })    
-    }
-
-    async login(req, res) {
-
-    }
-    async reset_password(req, res) {
-
     }
 }
 
