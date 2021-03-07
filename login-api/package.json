@@ -4,7 +4,7 @@
   "description": "Back-end da aplicação de login",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/app",
+    "start": "nodemon --exec babel-node --unhandled-rejections=none src/app ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

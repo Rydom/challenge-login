@@ -27,7 +27,10 @@ class UserController {
         .then(async data => {
             res.status(201).send({ message: "Usuário cadastrado!", user: await data.get()});
         }).catch(err => {
-            console.error(`Error Create: ${err.message}`)
+            console.error(`Error Create: ${err}`)
+            if(err.name.includes('UniqueConstraintError')) {
+                res.status(400).send({ message: "E-mail indisponível, favor utilizar outro e-mail."});
+            }
             res.status(500).send({ message: "Ocorreu um erro ao tentar cadastrar usuário."});
         })
     }
