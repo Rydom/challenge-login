@@ -1,31 +1,26 @@
+import AbstractController from './AbstractController'
 import User from '../models/User';
-class UserController {
+import UserRepository from '../repositories/UserRepository'
+import { hash } from 'bcrypt'
 
-    async list(req, res) {
-        if (!req.params.id) {
-            console.log(req.query)
-             await User.findAndCountAll({
-                where: req.query
-            }).then( (users) => {
-                res.status(200).json(users);
-            }).catch(err => {
-                console.error(err);
-                res.status(500).send({message: "Ocorreu um erro ao listar usuários"})
-            })
-        } else {
-            await User.findByPk(req.params.id).then(async user => {
-                res.status(200).json(user.get())
-            }).catch(err => {
-                res.status(500).send({message: `Error GET: ${err.message}`})
-            })
-        }
+const repository = new UserRepository();
+class UserController extends AbstractController {
+    constructor() {
+        super()
+    }
+    list(req, res) {
+        super.list(req, res, repository)
     }
 
     async create(req, res) {
         // Cadastra um novo
-        await User.create(req.body)
+        const saltRounds = 10;
+        const hashPassword = await hash(req.body.password, saltRounds)
+        req.body.password = hashPassword;
+
+        await repository.create(req.body)
         .then(async data => {
-            res.status(201).send({ message: "Usuário cadastrado!", user: await data.get()});
+            res.status(201).send({ message: "Usuário cadastrado!", user: data});
         }).catch(err => {
             console.error(`Error Create: ${err}`)
             if(err.name.includes('UniqueConstraintError')) {
@@ -36,33 +31,11 @@ class UserController {
     }
     
     async update(req, res) {
-        const { id } = req.params;
-        const data = req.body;
-        
-        await User.update(data, {
-            where: {
-                id: id
-            }
-        })
-        .then(data => {
-            res.status(201).send({ message: "Usuário atualizado!" });
-        }).catch(err => {
-            res.status(500).send({ message: "Ocorreu um erro ao atualizar o registro", err: err, request: req.body});
-        })    
+        super.update(req, res, repository)
     }
 
     async delete(req, res) {
-        const { id } = req.params;
-        await User.destroy({
-            where: {
-                id: id
-            }
-        })
-        .then(async data => {
-            res.status(201).send({ message: "Usuário deletado."});
-        }).catch(err => {
-            res.status(500).send({ message: "Ocorreu um erro ao deletar o registro", err: err, request: req.body});
-        })    
+        super.delete(req, res, repository)
     }
 }
 

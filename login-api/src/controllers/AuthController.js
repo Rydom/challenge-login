@@ -1,5 +1,5 @@
 import User from '../models/User'
-
+import { compare, hash } from 'bcrypt'
 class AuthController {
 
     async login(req, res) {
@@ -7,12 +7,14 @@ class AuthController {
         try {
             const { email, password } = req.body;
             if (email && password) {
-                const params = { email: email, password: password };
-                let user = await User.findOne({
+                const params = { email: email };
+                const user = await User.findOne({
                     where: params
                 })
-    
-                if (user) {
+                
+                const matchPassword = await compare(password, user.password) 
+
+                if (user && matchPassword) {
                     res.status(200).json({ message: `Bem-vindo, ${user.username}!`})
                 } else {
                     res.status(401).json({ message: "Crendenciais inválidas! verifique o seu e-mail e senha."})
@@ -35,7 +37,10 @@ class AuthController {
             const user = await User.findOne({ where: { email: email} });
     
             if (user) {
-                const updatePwd = { password: newPassword };
+                const saltRounds = 10;
+                const hashNewPassword = await hash(newPassword, saltRounds);
+                const updatePwd = { password: hashNewPassword };
+                
                 await User.update(updatePwd, {
                     where: { id: user.id }
                 })
